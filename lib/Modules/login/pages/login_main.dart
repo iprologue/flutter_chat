@@ -12,15 +12,9 @@ class LoginMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginProvider provider = Provider.of<LoginProvider>(context);
-    return Scaffold(
+    return const Scaffold(
       resizeToAvoidBottomInset: false,
-      body: AnimatedSwitcher(
-        duration: const Duration(microseconds: 500),
-        child: provider.curLoginWidget == 0
-            ? const QuickLoginPage()
-            : const QuickLoginPage(),
-      ),
+      body: QuickLoginPage(),
     );
   }
 }
@@ -90,21 +84,63 @@ class _QuickLoginPageState extends State<QuickLoginPage>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(fit: StackFit.expand, children: <Widget>[
-      BackgroundSlideMain(
-        index: index,
-        opacityMain: opacityMain,
-      ),
-      BackgroundSlideToChange(
-        opacityToChange: opacityToChange,
-        indexToChange: indexToChange,
-      ),
-      const Positioned(
-        left: 0,
-        top: 150,
-        child: QuickLoginBox(),
-      ),
-    ]);
+    LoginProvider provider = Provider.of<LoginProvider>(context);
+    double rpx = MediaQuery.of(context).size.width / 750;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      child: Stack(fit: StackFit.expand, children: <Widget>[
+        BackgroundSlideMain(
+          index: index,
+          opacityMain: opacityMain,
+        ),
+        BackgroundSlideToChange(
+          opacityToChange: opacityToChange,
+          indexToChange: indexToChange,
+        ),
+        Positioned(
+          left: 0,
+          top: 250 * rpx,
+          child: provider.curLoginWidget == 0 ? QuickLoginBox() : LoginBox(),
+        ),
+        if (provider.curLoginWidget == 1)
+          Positioned(
+            bottom: 230 * rpx,
+            left: 0,
+            child: Container(
+              width: 750 * rpx,
+              padding: EdgeInsets.symmetric(horizontal: 40 * rpx),
+              child: const Divider(color: Colors.blueGrey),
+            ),
+          ),
+        Positioned(
+          bottom: 100 * rpx,
+          left: 0,
+          child: SizedBox(
+            width: 750 * rpx,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Icon(
+                  Icons.face,
+                  size: 100 * rpx,
+                  color: Colors.white70,
+                ),
+                Icon(
+                  Icons.face,
+                  size: 100 * rpx,
+                  color: Colors.white70,
+                ),
+                Icon(
+                  Icons.face,
+                  size: 100 * rpx,
+                  color: Colors.white70,
+                ),
+              ],
+            ),
+          ),
+        )
+      ]),
+    );
   }
 }
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 
 class LoginProvider extends State<StatefulWidget> with ChangeNotifier {
@@ -32,6 +33,11 @@ class LoginProvider extends State<StatefulWidget> with ChangeNotifier {
 
   changeLoginBox() {
     curLoginWidget = curLoginWidget == 0 ? 1 : 0;
+    notifyListeners();
+  }
+
+  ifUserExistsByTelNo(BuildContext context) async {
+    ifStartRequest = true;
     notifyListeners();
   }
 

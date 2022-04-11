@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat/util/theme_utils.dart';
+
 import '../util/res/colors.dart';
 import '../util/res/dimens.dart';
 
@@ -19,6 +20,7 @@ class MyButton extends StatelessWidget {
     this.radius = 2.0,
     this.side = BorderSide.none,
     required this.onPressed,
+    this.child,
   }) : super(key: key);
 
   final String text;
@@ -33,6 +35,7 @@ class MyButton extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final double radius;
   final BorderSide side;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +85,11 @@ class MyButton extends StatelessWidget {
           ),
           side: MaterialStateProperty.all<BorderSide>(side),
         ),
-        child: Text(
-          text,
-          style: TextStyle(fontSize: fontSize),
-        ));
+        child: child != null
+            ? child!
+            : Text(
+                text,
+                style: TextStyle(fontSize: fontSize),
+              ));
   }
 }
