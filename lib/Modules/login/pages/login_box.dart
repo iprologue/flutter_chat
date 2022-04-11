@@ -44,7 +44,7 @@ class QuickLoginBox extends StatelessWidget {
                   Container(
                       margin: EdgeInsets.symmetric(vertical: 140 * rpx),
                       child: Text(
-                        "151 **** 0612",
+                        "188 **** 0612",
                         style: TextStyle(
                             fontSize: 50 * rpx, fontFamily: "Pangmen"),
                       )),
