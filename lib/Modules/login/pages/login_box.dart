@@ -244,7 +244,7 @@ class QuickLoginBox extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                             child: Container(
-                              decoration: BoxDecoration(
+                          decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20 * rpx)),
                           height: 90 * rpx,
                           // width: 750*rpx-2*margin,
