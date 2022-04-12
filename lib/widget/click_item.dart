@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat/util/theme_utils.dart';
+
 import '../util/res/resources.dart';
 
 class ClickItem extends StatelessWidget {
@@ -8,7 +10,8 @@ class ClickItem extends StatelessWidget {
       required this.title,
       this.content = '',
       this.textAlign = TextAlign.start,
-      this.maxLines = 1})
+      this.maxLines = 1,
+      this.line = false})
       : super(key: key);
 
   final GestureTapCallback? onTap;
@@ -16,6 +19,7 @@ class ClickItem extends StatelessWidget {
   final String content;
   final TextAlign textAlign;
   final int maxLines;
+  final bool line;
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +58,20 @@ class ClickItem extends StatelessWidget {
 
     /// 分隔线
     child = Container(
-      margin: const EdgeInsets.only(left: 15.0),
-      padding: const EdgeInsets.fromLTRB(0, 15.0, 15.0, 15.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
       constraints: const BoxConstraints(
         minHeight: 50.0,
       ),
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border(
-          bottom: Divider.createBorderSide(context, width: 0.6),
-        ),
+        color: ThemeUtils.isDark(context)
+            ? Colours.dark_material_bg
+            : Colors.white,
+        border: line
+            ? Border(
+                bottom: Divider.createBorderSide(context, width: 0.6),
+              )
+            : const Border(),
       ),
       child: child,
     );

@@ -1,9 +1,12 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_chat/Modules/main/main_page.dart';
+
+import '../Modules/mine/mine_router.dart';
 import 'i_router.dart';
 
 class Routes {
-  static String home = '/index';
+  static String home = '/home';
   static String webViewPage = '/webView';
 
   static final List<IRouterProvider> _listRouter = [];
@@ -18,11 +21,11 @@ class Routes {
     //       return const NotFoundPage();
     //     });
 
-    // router.define(home,
-    //     handler: Handler(
-    //         handlerFunc:
-    //             (BuildContext? context, Map<String, List<String>> params) =>
-    //                 const IndexPage()));
+    router.define(home,
+        handler: Handler(
+            handlerFunc:
+                (BuildContext? context, Map<String, List<String>> params) =>
+                    const MainPage()));
 
     // router.define(webViewPage, handler: Handler(handlerFunc: (_, params) {
     //   final String title = params['title']?.first ?? '';
@@ -34,7 +37,7 @@ class Routes {
 
     /// 各自路由由各自模块管理，统一在此添加初始化
     // _listRouter.add(LoginRouter());
-    // _listRouter.add(HomeRouter());
+    _listRouter.add(MineRouter());
 
     /// 初始化路由
     void initRouter(IRouterProvider routerProvider) {
