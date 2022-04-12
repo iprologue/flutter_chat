@@ -1,115 +1,107 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat/Modules/login/pages/login_main.dart';
+import 'package:flutter_chat/Modules/login/provider/login_provider.dart';
+import 'package:flutter_chat/Modules/main/main_page.dart';
+import 'package:flutter_chat/routers/routers.dart';
+import 'package:flutter_chat/util/device_utils.dart';
+import 'package:flutter_chat/util/theme_utils.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'Modules/mine/provider/theme_provider.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+  // normalLogin();
+}
+
+void normalLogin() {
+  runApp(MaterialApp(
+    theme: ThemeData(
+        splashColor: Colors.transparent, highlightColor: Colors.transparent),
+    home: MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LoginProvider(),
+        ),
+      ],
+      child: const LoginMain(),
+    ),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key, this.home, this.theme}) : super(key: key) {
+    Routes.initRoutes();
+  }
 
-  // This widget is the root of your application.
+  final Widget? home;
+  final ThemeData? theme;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    final Widget app = MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+      ],
+      child: Consumer2<ThemeProvider, LoginProvider>(
+        builder: (_, ThemeProvider provider, LoginProvider localeProvider, __) {
+          return _buildMaterialApp(provider, localeProvider);
+        },
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
-  }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+    /// Toast 配置
+    return OKToast(
+        backgroundColor: Colors.black54,
+        textPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        radius: 20.0,
+        position: ToastPosition.bottom,
+        child: app);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+  Widget _buildMaterialApp(
+      ThemeProvider provider, LoginProvider localeProvider) {
+    return MaterialApp(
+      title: 'Flutter Chat',
+      // showPerformanceOverlay: true, //显示性能标签
+      // debugShowCheckedModeBanner: false, // 去除右上角debug的标签
+      // checkerboardRasterCacheImages: true,
+      // showSemanticsDebugger: true, // 显示语义视图
+      // checkerboardOffscreenLayers: true, // 检查离屏渲染
+
+      theme: theme ?? provider.getTheme(),
+      darkTheme: provider.getTheme(isDarkMode: true),
+      themeMode: provider.getThemeMode(),
+      home: home ?? const MainPage(),
+      onGenerateRoute: Routes.router.generator,
+      // localizationsDelegates: DeerLocalizations.localizationsDelegates,
+      // supportedLocales: DeerLocalizations.supportedLocales,
+      // locale: localeProvider.locale,
+      builder: (BuildContext context, Widget? child) {
+        /// 仅针对安卓
+        if (Device.isAndroid) {
+          /// 切换深色模式会触发此方法，这里设置导航栏颜色
+          ThemeUtils.setSystemNavigationBar(provider.getThemeMode());
+        }
+
+        /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: child!,
+        );
+      },
+
+      // /// 因为使用了fluro，这里设置主要针对Web
+      // onUnknownRoute: (_) {
+      //   return MaterialPageRoute<void>(
+      //     builder: (BuildContext context) => const NotFoundPage(),
+      //   );
+      // },
+      restorationScopeId: 'app',
     );
   }
 }
