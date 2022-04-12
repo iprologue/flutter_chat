@@ -4,6 +4,7 @@ import 'package:flutter_chat/Modules/discover/pages/discover_page.dart';
 import 'package:flutter_chat/Modules/main/provider/main_provider.dart';
 import 'package:flutter_chat/Modules/mine/pages/mine_page.dart';
 import 'package:flutter_chat/util/theme_utils.dart';
+import 'package:flutter_chat/widget/load_image.dart';
 import 'package:provider/provider.dart';
 
 import '../../util/res/colors.dart';
@@ -19,10 +20,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with RestorationMixin {
-  // static const double _imageSize = 25.0;
+  static const double _imageSize = 25.0;
 
   late List<Widget> _pageList;
-  final List<String> _appBarTitles = ['聊天', '好友', '朋友圈', '我的'];
+  final List<String> _appBarTitles = ['聊天', '好友', '发现', '我'];
   final PageController _pageController = PageController();
 
   MainProvider provider = MainProvider();
@@ -54,31 +55,43 @@ class _MainPageState extends State<MainPage> with RestorationMixin {
     if (_list == null) {
       const tabImages = [
         [
-          Icon(
-            Icons.chat,
+          LoadAssetImage(
+            'tab/tabBar_0',
+            width: _imageSize,
           ),
-          Icon(
-            Icons.chat,
+          LoadAssetImage(
+            'tab/tabBar_0_',
+            width: _imageSize,
           )
         ],
         [
-          Icon(Icons.ac_unit_sharp),
-          Icon(
-            Icons.ac_unit_sharp,
-          )
-        ],
-        [
-          Icon(Icons.fiber_manual_record_rounded),
-          Icon(
-            Icons.fiber_manual_record_rounded,
-          )
-        ],
-        [
-          Icon(
-            Icons.person,
+          LoadAssetImage(
+            'tab/tabBar_1',
+            width: _imageSize,
           ),
-          Icon(
-            Icons.person,
+          LoadAssetImage(
+            'tab/tabBar_1_',
+            width: _imageSize,
+          )
+        ],
+        [
+          LoadAssetImage(
+            'tab/tabBar_2',
+            width: _imageSize,
+          ),
+          LoadAssetImage(
+            'tab/tabBar_2_',
+            width: _imageSize,
+          )
+        ],
+        [
+          LoadAssetImage(
+            'tab/tabBar_3',
+            width: _imageSize,
+          ),
+          LoadAssetImage(
+            'tab/tabBar_3_',
+            width: _imageSize,
           )
         ],
       ];
