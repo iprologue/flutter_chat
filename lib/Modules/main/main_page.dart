@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../util/res/colors.dart';
 import '../../util/res/dimens.dart';
 import '../../widget/double_tap_back_exit_app.dart';
-import '../../widget/load_image.dart';
 import '../friends/pages/friends_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,10 +19,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with RestorationMixin {
-  static const double _imageSize = 25.0;
+  // static const double _imageSize = 25.0;
 
   late List<Widget> _pageList;
-  final List<String> _appBarTitles = ['首页', '分类', '品味', '购物车', '我的'];
+  final List<String> _appBarTitles = ['聊天', '好友', '朋友圈', '我的'];
   final PageController _pageController = PageController();
 
   MainProvider provider = MainProvider();
@@ -55,49 +54,33 @@ class _MainPageState extends State<MainPage> with RestorationMixin {
     if (_list == null) {
       const tabImages = [
         [
-          LoadAssetImage(
-            'tab/main_img_2',
-            width: _imageSize,
+          Icon(
+            Icons.chat,
           ),
-          LoadAssetImage(
-            'tab/main_img_1',
-            width: _imageSize,
-          ),
-        ],
-        [
-          LoadAssetImage(
-            'tab/category_img_2',
-            width: _imageSize,
-          ),
-          LoadAssetImage(
-            'tab/category_img_1',
-            width: _imageSize,
+          Icon(
+            Icons.chat,
           )
         ],
         [
-          LoadAssetImage(
-            'tab/discover_img_2',
-            width: _imageSize,
+          Icon(Icons.ac_unit_sharp),
+          Icon(
+            Icons.ac_unit_sharp,
+          )
+        ],
+        [
+          Icon(Icons.fiber_manual_record_rounded),
+          Icon(
+            Icons.fiber_manual_record_rounded,
+          )
+        ],
+        [
+          Icon(
+            Icons.person,
           ),
-          LoadAssetImage(
-            'tab/discover_img_1',
-            width: _imageSize,
+          Icon(
+            Icons.person,
           )
         ],
-        [
-          LoadAssetImage('tab/cart_img_2', width: _imageSize),
-          LoadAssetImage(
-            'tab/cart_img_1',
-            width: _imageSize,
-          )
-        ],
-        [
-          LoadAssetImage('tab/profile_img_2', width: _imageSize),
-          LoadAssetImage(
-            'tab/profile_img_1',
-            width: _imageSize,
-          )
-        ]
       ];
       _list = List.generate(tabImages.length, (i) {
         return BottomNavigationBarItem(

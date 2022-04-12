@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat/Modules/login/pages/login_main.dart';
 import 'package:flutter_chat/Modules/login/provider/login_provider.dart';
+import 'package:flutter_chat/Modules/main/main_page.dart';
 import 'package:flutter_chat/routers/routers.dart';
 import 'package:flutter_chat/util/device_utils.dart';
 import 'package:flutter_chat/util/theme_utils.dart';
@@ -11,8 +12,8 @@ import 'Modules/mine/provider/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // runApp(MyApp());
-  normalLogin();
+  runApp(MyApp());
+  // normalLogin();
 }
 
 void normalLogin() {
@@ -75,7 +76,7 @@ class MyApp extends StatelessWidget {
       theme: theme ?? provider.getTheme(),
       darkTheme: provider.getTheme(isDarkMode: true),
       themeMode: provider.getThemeMode(),
-      home: home ?? const LoginMain(),
+      home: home ?? const MainPage(),
       onGenerateRoute: Routes.router.generator,
       // localizationsDelegates: DeerLocalizations.localizationsDelegates,
       // supportedLocales: DeerLocalizations.supportedLocales,
