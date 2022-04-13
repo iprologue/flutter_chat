@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat/Modules/chat/pages/chat_page.dart';
+import 'package:flutter_chat/Modules/contacts/pages/contacts_page.dart';
 import 'package:flutter_chat/Modules/discover/pages/discover_page.dart';
 import 'package:flutter_chat/Modules/main/provider/main_provider.dart';
 import 'package:flutter_chat/Modules/mine/pages/mine_page.dart';
@@ -10,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../util/res/colors.dart';
 import '../../util/res/dimens.dart';
 import '../../widget/double_tap_back_exit_app.dart';
-import '../friends/pages/friends_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> with RestorationMixin {
   void initData() {
     _pageList = [
       const ChatPage(),
-      const FriendsPage(),
+      const ContactsPage(),
       const DiscoverPage(),
       const MinePage()
     ];

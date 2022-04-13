@@ -11,7 +11,8 @@ class ClickItem extends StatelessWidget {
       this.content = '',
       this.textAlign = TextAlign.start,
       this.maxLines = 1,
-      this.line = false})
+      this.line = false,
+      this.leading})
       : super(key: key);
 
   final GestureTapCallback? onTap;
@@ -20,6 +21,7 @@ class ClickItem extends StatelessWidget {
   final TextAlign textAlign;
   final int maxLines;
   final bool line;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,8 @@ class ClickItem extends StatelessWidget {
       crossAxisAlignment:
           maxLines == 1 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: <Widget>[
+        if (leading != null) leading!,
+        if (leading != null) Gaps.hGap8,
         Text(title),
         const Spacer(),
         Gaps.hGap16,

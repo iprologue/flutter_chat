@@ -7,6 +7,7 @@ import 'package:flutter_chat/util/res/dimens.dart';
 import 'package:flutter_chat/widget/click_item.dart';
 import 'package:flutter_chat/widget/load_image.dart';
 
+import '../../../util/image_utils.dart';
 import '../../../util/res/gaps.dart';
 import '../../../util/theme_utils.dart';
 
@@ -21,21 +22,26 @@ class _MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     final itemList = [
-      {
-        'title': '服务',
-        'onTap': () {},
-      },
+      {'title': '服务', 'onTap': () {}, 'image': 'mine/bankCard'},
       {'title': null},
-      {'title': '收藏', 'onTap': () {}, 'line': true},
-      {'title': '朋友圈', 'onTap': () {}, 'line': true},
-      {'title': '卡包', 'onTap': () {}, 'line': true},
       {
-        'title': '表情',
+        'title': '收藏',
         'onTap': () {},
+        'line': true,
+        'image': 'mine/myFavorites'
       },
+      {'title': '朋友圈', 'onTap': () {}, 'line': true, 'image': 'mine/myAlbum'},
+      {
+        'title': '卡包',
+        'onTap': () {},
+        'line': true,
+        'image': 'mine/cardPackage'
+      },
+      {'title': '表情', 'onTap': () {}, 'image': 'mine/shops'},
       {'title': null},
       {
         'title': '设置',
+        'image': 'mine/setting',
         'onTap': () {
           NavigatorUtils.push(context, MineRouter.settingPage);
         },
@@ -102,6 +108,7 @@ class _MinePageState extends State<MinePage> {
           for (Map item in itemList)
             if (item["title"] != null)
               ClickItem(
+                leading: _leading(item['image']),
                 title: item['title'],
                 onTap: item['onTap'],
                 line: item['line'] == true ? true : false,
@@ -109,6 +116,18 @@ class _MinePageState extends State<MinePage> {
             else
               Gaps.vGap10
         ],
+      ),
+    );
+  }
+
+  Widget _leading(String image, {ImageFormat format = ImageFormat.png}) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(3)),
+      child: LoadAssetImage(
+        image,
+        format: format,
+        width: 23,
       ),
     );
   }
