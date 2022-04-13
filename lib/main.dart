@@ -3,7 +3,9 @@ import 'package:flutter_chat/Modules/login/pages/login_main.dart';
 import 'package:flutter_chat/Modules/login/provider/login_provider.dart';
 import 'package:flutter_chat/Modules/main/main_page.dart';
 import 'package:flutter_chat/routers/routers.dart';
+import 'package:flutter_chat/util/db/pro_cache.dart';
 import 'package:flutter_chat/util/device_utils.dart';
+import 'package:flutter_chat/util/res/constant.dart';
 import 'package:flutter_chat/util/theme_utils.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,7 @@ import 'Modules/mine/provider/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
   // normalLogin();
 }
@@ -65,43 +68,50 @@ class MyApp extends StatelessWidget {
 
   Widget _buildMaterialApp(
       ThemeProvider provider, LoginProvider localeProvider) {
-    return MaterialApp(
-      title: 'Flutter Chat',
-      // showPerformanceOverlay: true, //显示性能标签
-      // debugShowCheckedModeBanner: false, // 去除右上角debug的标签
-      // checkerboardRasterCacheImages: true,
-      // showSemanticsDebugger: true, // 显示语义视图
-      // checkerboardOffscreenLayers: true, // 检查离屏渲染
+    return FutureBuilder<ProCache>(
+        future: ProCache.preInit(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          return MaterialApp(
+            title: 'Flutter Chat',
+            // showPerformanceOverlay: true, //显示性能标签
+            // debugShowCheckedModeBanner: false, // 去除右上角debug的标签
+            // checkerboardRasterCacheImages: true,
+            // showSemanticsDebugger: true, // 显示语义视图
+            // checkerboardOffscreenLayers: true, // 检查离屏渲染
 
-      theme: theme ?? provider.getTheme(),
-      darkTheme: provider.getTheme(isDarkMode: true),
-      themeMode: provider.getThemeMode(),
-      home: home ?? const MainPage(),
-      onGenerateRoute: Routes.router.generator,
-      // localizationsDelegates: DeerLocalizations.localizationsDelegates,
-      // supportedLocales: DeerLocalizations.supportedLocales,
-      // locale: localeProvider.locale,
-      builder: (BuildContext context, Widget? child) {
-        /// 仅针对安卓
-        if (Device.isAndroid) {
-          /// 切换深色模式会触发此方法，这里设置导航栏颜色
-          ThemeUtils.setSystemNavigationBar(provider.getThemeMode());
-        }
+            theme: theme ?? provider.getTheme(),
+            darkTheme: provider.getTheme(isDarkMode: true),
+            themeMode: provider.getThemeMode(),
+            home: home ??
+                (ProCache.getInstance().get(Constant.accessToken) == null
+                    ? const LoginMain()
+                    : const MainPage()),
+            onGenerateRoute: Routes.router.generator,
+            // localizationsDelegates: DeerLocalizations.localizationsDelegates,
+            // supportedLocales: DeerLocalizations.supportedLocales,
+            // locale: localeProvider.locale,
+            builder: (BuildContext context, Widget? child) {
+              /// 仅针对安卓
+              if (Device.isAndroid) {
+                /// 切换深色模式会触发此方法，这里设置导航栏颜色
+                ThemeUtils.setSystemNavigationBar(provider.getThemeMode());
+              }
 
-        /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-          child: child!,
-        );
-      },
+              /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
+              return MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: child!,
+              );
+            },
 
-      // /// 因为使用了fluro，这里设置主要针对Web
-      // onUnknownRoute: (_) {
-      //   return MaterialPageRoute<void>(
-      //     builder: (BuildContext context) => const NotFoundPage(),
-      //   );
-      // },
-      restorationScopeId: 'app',
-    );
+            // /// 因为使用了fluro，这里设置主要针对Web
+            // onUnknownRoute: (_) {
+            //   return MaterialPageRoute<void>(
+            //     builder: (BuildContext context) => const NotFoundPage(),
+            //   );
+            // },
+            restorationScopeId: 'app',
+          );
+        });
   }
 }

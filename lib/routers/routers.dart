@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_chat/Modules/main/main_page.dart';
 
+import '../Modules/login/login_router.dart';
 import '../Modules/mine/mine_router.dart';
 import 'i_router.dart';
 
@@ -36,7 +37,7 @@ class Routes {
     _listRouter.clear();
 
     /// 各自路由由各自模块管理，统一在此添加初始化
-    // _listRouter.add(LoginRouter());
+    _listRouter.add(LoginRouter());
     _listRouter.add(MineRouter());
 
     /// 初始化路由

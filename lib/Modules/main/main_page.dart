@@ -23,7 +23,7 @@ class _MainPageState extends State<MainPage> with RestorationMixin {
   static const double _imageSize = 25.0;
 
   late List<Widget> _pageList;
-  final List<String> _appBarTitles = ['聊天', '好友', '发现', '我'];
+  final List<String> _appBarTitles = ['聊天', '通讯录', '发现', '我'];
   final PageController _pageController = PageController();
 
   MainProvider provider = MainProvider();

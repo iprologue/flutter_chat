@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_chat/widget/my_app_bar.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -10,6 +12,11 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold(
+      appBar: MyAppBar(
+        centerTitle: '首页',
+        isBack: false,
+      ),
+    );
   }
 }

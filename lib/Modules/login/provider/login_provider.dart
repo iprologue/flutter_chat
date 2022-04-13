@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_chat/routers/fluro_navigator.dart';
+import 'package:flutter_chat/routers/routers.dart';
+import 'package:flutter_chat/util/db/pro_cache.dart';
+import 'package:flutter_chat/util/res/constant.dart';
 
 class LoginProvider extends State<StatefulWidget> with ChangeNotifier {
   TextEditingController? userNameController = TextEditingController();
@@ -38,6 +42,11 @@ class LoginProvider extends State<StatefulWidget> with ChangeNotifier {
 
   ifUserExistsByTelNo(BuildContext context) async {
     ifStartRequest = true;
+    notifyListeners();
+
+    ProCache.getInstance().setString(Constant.accessToken, '1111');
+    NavigatorUtils.push(context, Routes.home, clearStack: true);
+    ifStartRequest = false;
     notifyListeners();
   }
 

@@ -10,6 +10,7 @@ import 'package:flutter_chat/widget/my_button.dart';
 import '../../../util/res/colors.dart';
 import '../../../util/res/gaps.dart';
 import '../../../util/theme_utils.dart';
+import '../../login/login_router.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -114,7 +115,10 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           Gaps.vGap10,
           MyButton(
-            onPressed: () {},
+            onPressed: () {
+              NavigatorUtils.push(context, LoginRouter.loginPage,
+                  clearStack: true);
+            },
             child: Text(
               '退出登录',
               style: TextStyle(
